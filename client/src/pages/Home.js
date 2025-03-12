@@ -13,11 +13,13 @@ function Home() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Typography.Title level={2} style={{ textAlign: "center" }}>
-        PEOPLE AND THEIR CARS
-      </Typography.Title>
-      <Divider />
+    <div className="p-5 flex flex-col gap-4">
+      <div>
+        <Typography.Title level={2} className="text-center">
+          PEOPLE AND THEIR CARS
+        </Typography.Title>
+        <Divider />
+      </div>
       <AddPerson />
       <AddCar people={data.people} />
       <PeopleList />

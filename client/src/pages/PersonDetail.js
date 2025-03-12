@@ -16,13 +16,13 @@ function PersonDetail() {
   const person = data.person;
 
   return (
-    <div style={{ maxWidth: "600px", margin: "auto", paddingTop: "20px" }}>
+    <div className="p-5">
       <Card title={`${person.firstName} ${person.lastName}`}>
-        <p><strong>Cars:</strong></p>
+        <p className="mb-2"><strong>Cars:</strong></p>
         {person.cars.length > 0 ? (
           person.cars.map((car) => (
             <p key={car.id}>
-              {car.year} {car.make} {car.model} - ${car.price}
+              {car.year} {car.make} {car.model} - ${car.price.toLocaleString()}
             </p>
           ))
         ) : (
@@ -30,7 +30,7 @@ function PersonDetail() {
         )}
 
         <Link to="/">
-          <Button type="primary" style={{ marginTop: "20px" }}>Go Back</Button>
+          <Button type="primary" className="mt-4">Go Back</Button>
         </Link>
       </Card>
     </div>

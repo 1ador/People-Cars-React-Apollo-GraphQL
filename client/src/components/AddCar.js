@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_CAR } from "../graphql/mutations";
 import { GET_PEOPLE } from "../graphql/queries";
-import { Input, Button, Select, message, Divider, Typography } from "antd";
-
-const { Option } = Select;
+import { Button, Select, message, Divider, Typography } from "antd";
+import CustomInput from "./CustomInput";
 
 function AddCar({ people }) {
   const [formData, setFormData] = useState({
@@ -56,25 +55,30 @@ function AddCar({ people }) {
   return (
     <div>
       <Divider> 
-        <Typography.Title level={3} style={{ margin: 0 }}>
-        Add Car
-        </Typography.Title> 
+        <Typography.Title level={3}>Add Car</Typography.Title>
       </Divider>
-      <label>Year:</label>
-      <Input name="year" placeholder="Year" value={formData.year} onChange={handleChange} />
-      <Input name="make" placeholder="Make" value={formData.make} onChange={handleChange} />
-      <Input name="model" placeholder="Model" value={formData.model} onChange={handleChange} />
-      <Input name="price" placeholder="Price" value={formData.price} onChange={handleChange} />
-      <Select placeholder="Select Owner" onChange={handleSelectChange} value={formData.personId}>
-        {people.map((person) => (
-          <Option key={person.id} value={person.id}>
-            {person.firstName} {person.lastName}
-          </Option>
-        ))}
-      </Select>
-      <Button type="primary" onClick={handleSubmit} disabled={!formData.personId}>
-        Add Car
-      </Button>
+      <div className="flex justify-center gap-4">
+        <CustomInput label="Year" name="year" placeholder="Year" value={formData.year} onChange={handleChange} className="w-20" required />
+        <CustomInput label="Make" name="make" placeholder="Make" value={formData.make} onChange={handleChange} className="w-28" required />
+        <CustomInput label="Model" name="model" placeholder="Model" value={formData.model} onChange={handleChange} className="w-28" required />
+        <CustomInput label="Price" name="price" prefix="$" value={formData.price} onChange={handleChange} className="w-20" required />
+        <div className="flex gap-2 items-center">
+          <label><span className="text-red-600">*</span>Person:</label>
+          <Select
+            placeholder="Select a person"
+            onChange={handleSelectChange}
+            value={formData.personId || undefined}
+            className="w-48"
+            options={people.map((person) => ({
+              label: `${person.firstName} ${person.lastName}`,
+              value: person.id,
+            }))}
+          />
+        </div>
+        <Button type="primary" onClick={handleSubmit} disabled={!formData.personId}>
+          Add Car
+        </Button>
+      </div>
     </div>
   );
 }

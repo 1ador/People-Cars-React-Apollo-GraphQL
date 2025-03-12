@@ -39,11 +39,11 @@ function EditPerson({ person, visible, onClose }) {
                 <Form.Item label="Last Name" name="lastName" rules={[{ required: true, message: "Please enter last name" }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                <Form.Item className="flex flex-row">
+                    <Button type="primary" htmlType="submit" className="mr-4">
                         Save
                     </Button>
-                    <Button onClick={onClose} style={{ marginLeft: "10px" }}>
+                    <Button onClick={onClose}>
                         Cancel
                     </Button>
                 </Form.Item>

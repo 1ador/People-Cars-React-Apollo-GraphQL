@@ -4,7 +4,8 @@ import { GET_PEOPLE } from "../graphql/queries";
 import { DELETE_PERSON, DELETE_CAR } from "../graphql/mutations";
 import EditPerson from "./EditPerson";
 import EditCar from "./EditCar";
-import { Card, Button, List, message, Modal } from "antd";
+import { Card, Typography, Button, List, message, Modal, Divider } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 function PeopleList() {
@@ -60,40 +61,55 @@ function PeopleList() {
   };
 
   return (
-    <List
-      dataSource={data.people}
-      renderItem={(person) => (
-        <Card title={`${person.firstName} ${person.lastName}`} style={{ marginBottom: "20px" }}>
-          <p><strong>Cars:</strong></p>
+    <div>
+      <Divider> 
+        <Typography.Title level={3}>Records</Typography.Title>
+      </Divider>
+
+      <List dataSource={data.people} renderItem={(person) => (
+        <Card 
+          title={`${person.firstName} ${person.lastName}`} 
+          className="mb-6"
+          styles={{
+            body: { paddingBottom: 4 }
+          }}>
           {person.cars.length > 0 ? (
             person.cars.map((car) => (
-              <div key={car.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <p>{car.year} {car.make} {car.model} - ${car.price}</p>
-                <div>
-                  <Button size="small" onClick={() => setEditingCar(car)}>Edit</Button>
-                  <Button size="small" danger onClick={() => handleDeleteCar(car.id)}>
-                    Delete
-                  </Button>
+              <Card 
+                key={car.id} 
+                title={ <span className="text-sm font-medium">{`${car.year} ${car.make} ${car.model} -> $ ${car.price.toLocaleString()}`}</span> } 
+                styles={{
+                  header: { backgroundColor: "#F5F5F5" },
+                  body: { paddingTop: 4, paddingBottom: 4 }
+                }}
+                className="mb-4">
+                <div className="flex justify-around items-center">
+                  <Button type="text" icon={<EditOutlined />} onClick={() => setEditingCar(car)} />
+                  <Button type="text" icon={<DeleteOutlined className="text-red-500" />} onClick={() => handleDeleteCar(car.id)} />
                 </div>
-              </div>
+              </Card>
             ))
           ) : (
             <p>No cars available</p>
           )}
 
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px" }}>
-            <Button onClick={() => setEditingPerson(person)}>Edit</Button>
-            <Button danger onClick={() => handleDeletePerson(person.id)}>Delete</Button>
-            <Link to={`/people/${person.id}`}>
-              <Button type="link">Learn More</Button>
-            </Link>
+          <Link to={`/people/${person.id}`}>
+            <Button type="link">Learn More</Button>
+          </Link>
+
+          <Divider className="m-2" />
+          
+          <div className="flex justify-around items-center px-6">
+            <Button type="text" icon={<EditOutlined />} onClick={() => setEditingPerson(person)} />
+            <Button type="text" icon={<DeleteOutlined className="text-red-500" />} onClick={() => handleDeletePerson(person.id)} />
           </div>
 
           {editingPerson && <EditPerson person={editingPerson} visible={true} onClose={() => setEditingPerson(null)} />}
           {editingCar && <EditCar car={editingCar} people={data.people} visible={true} onClose={() => setEditingCar(null)} />}
         </Card>
-      )}
-    />
+        )}
+      />
+    </div>
   );
 }
 

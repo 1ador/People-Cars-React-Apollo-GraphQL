@@ -4,7 +4,7 @@ import { UPDATE_CAR } from "../graphql/mutations";
 import { GET_PEOPLE } from "../graphql/queries";
 import { Modal, Input, Button, Form, message } from "antd";
 
-function EditCar({ car, people, visible, onClose }) {
+function EditCar({ car, visible, onClose }) {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -49,12 +49,14 @@ function EditCar({ car, people, visible, onClose }) {
         <Form.Item label="Price" name="price" rules={[{ required: true, message: "Please enter price" }]}>
           <Input type="number" />
         </Form.Item>
-        <Button type="primary" htmlType="submit">
-          Save
-        </Button>
-        <Button onClick={onClose} style={{ marginLeft: "10px" }}>
-          Cancel
-        </Button>
+        <Form.Item className="flex flex-row">
+            <Button type="primary" htmlType="submit" className="mr-4">
+                Save
+            </Button>
+            <Button onClick={onClose}>
+                Cancel
+            </Button>
+        </Form.Item>
       </Form>
     </Modal>
   );
